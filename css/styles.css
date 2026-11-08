@@ -1,0 +1,536 @@
+/* ============================================================
+   GoGUAP — стили страницы
+   Файл разбит по зонам ответственности (SRP):
+     1) переменные и база;
+     2) переиспользуемые компоненты (.btn, .card, .gradient-text…);
+     3) секции страницы, которые лишь дополняют компоненты
+        своей спецификой — без копипасты общих свойств (DRY).
+   ============================================================ */
+
+/* ===== 1. Переменные и база ===== */
+:root {
+    --bg: #0a0e1a;
+    --bg-soft: #101627;
+    --panel: #151d33;
+    --border: #232e4d;
+    --text: #e8ecf7;
+    --muted: #9aa5c0;
+    --accent: #6c5ce7;
+    --accent-2: #00d2c6;
+    --radius: 14px;
+    --gradient: linear-gradient(135deg, var(--accent), var(--accent-2));
+    --gradient-h: linear-gradient(90deg, var(--accent), var(--accent-2));
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+
+section { padding: 80px 0; }
+
+:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; }
+
+/* ===== 2. Переиспользуемые компоненты ===== */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h2 {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.section-sub {
+    text-align: center;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 auto 48px;
+}
+
+/* Градиентный текст (заголовок hero, цифры статистики) */
+.gradient-text {
+    background: var(--gradient-h);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Кнопки */
+.btn {
+    display: inline-block;
+    padding: 12px 26px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.btn-primary {
+    background: var(--gradient);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(108, 92, 231, 0.4);
+}
+
+.btn-ghost {
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+.btn-ghost:hover {
+    border-color: var(--accent-2);
+    color: var(--accent-2);
+}
+
+/* Универсальная карточка: вся общая логика внешнего вида в одном месте */
+.card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.card--soft { background: var(--bg-soft); }
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+
+.card-icon { font-size: 30px; }
+
+.card-title {
+    display: block;
+    margin: 12px 0 6px;
+    font-size: 17px;
+}
+
+.card-text {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* Анимация появления при прокрутке */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== 3. Шапка ===== */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 14, 26, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--text);
+}
+
+.logo-badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 26px;
+    list-style: none;
+}
+
+.nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover { color: var(--accent-2); }
+
+/* Кнопка мобильного меню (бургер) */
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+}
+
+.nav-toggle span {
+    width: 24px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ===== Главный экран ===== */
+.hero {
+    padding: 110px 0 90px;
+    background:
+        radial-gradient(1px 1px at 20% 30%, #fff 50%, transparent 50%),
+        radial-gradient(1px 1px at 80% 20%, #fff 50%, transparent 50%),
+        radial-gradient(2px 2px at 60% 60%, #8b7bff 50%, transparent 50%),
+        radial-gradient(1px 1px at 35% 75%, #00d2c6 50%, transparent 50%),
+        radial-gradient(ellipse at 50% -20%, rgba(108, 92, 231, 0.25), transparent 60%);
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: center;
+}
+
+.hero-content { text-align: left; }
+
+.hero-tag {
+    display: inline-block;
+    padding: 6px 16px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--accent-2);
+    font-size: 13px;
+    margin-bottom: 22px;
+    letter-spacing: 1px;
+}
+
+.hero h1 {
+    font-size: 52px;
+    line-height: 1.15;
+    max-width: 820px;
+    margin: 0 0 20px;
+}
+
+.hero p {
+    color: var(--muted);
+    font-size: 18px;
+    max-width: 640px;
+    margin: 0 0 34px;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+    margin-top: 56px;
+    flex-wrap: wrap;
+}
+
+.hero-stats .stat b {
+    display: block;
+    font-size: 30px;
+}
+
+.hero-stats .stat span {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.hero-figure img { width: 100%; }
+
+/* ===== О проекте ===== */
+.about-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 48px;
+    align-items: center;
+}
+
+.about-text p {
+    color: var(--muted);
+    margin-bottom: 16px;
+}
+
+.about-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.about-cards .card { text-align: center; }
+
+/* ===== Как это работает ===== */
+.steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.step-card { position: relative; }
+
+.step-num {
+    position: absolute;
+    top: -16px;
+    left: 22px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+/* ===== Преимущества ===== */
+.features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* ===== Отзывы ===== */
+.reviews {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.review-card .stars { color: #ffd166; margin-bottom: 14px; }
+
+.review-text {
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 18px;
+}
+
+.review-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.review-author .avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.review-author b { display: block; font-size: 15px; }
+
+.review-author span { color: var(--muted); font-size: 13px; }
+
+/* ===== Запись в тестирование ===== */
+.cta-box {
+    background:
+        radial-gradient(ellipse at 20% 0%, rgba(108, 92, 231, 0.3), transparent 55%),
+        var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 56px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+}
+
+.cta-box h2 { text-align: left; }
+
+.cta-info p { color: var(--muted); margin-top: 10px; }
+
+.cta-figure { margin-top: 28px; }
+
+.cta-figure img { width: 100%; }
+
+.cta-figure figcaption {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.form-field { margin-bottom: 14px; }
+
+.form-field input {
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+}
+
+.form-field input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.form-check {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    color: var(--muted);
+    font-size: 13px;
+    margin: 14px 0 18px;
+}
+
+/* ===== Контакты и футер ===== */
+.contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.contact-card { text-align: center; }
+
+.contact-card a { text-decoration: none; }
+
+.contact-card a:hover { color: var(--accent-2); }
+
+.footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.footer a { color: var(--accent-2); text-decoration: none; }
+
+/* ===== Кнопка «наверх» ===== */
+.to-top {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: var(--gradient);
+    color: #fff;
+    font-size: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+    z-index: 90;
+}
+
+.to-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.to-top:hover { transform: translateY(-4px); }
+
+/* ===== Адаптивность ===== */
+@media (max-width: 900px) {
+    .steps, .features, .reviews, .contacts-grid { grid-template-columns: 1fr 1fr; }
+    .about-grid, .hero-grid { grid-template-columns: 1fr; }
+    .cta-box { grid-template-columns: 1fr; padding: 40px 28px; }
+    .hero { padding: 72px 0 64px; }
+    .hero h1 { font-size: 38px; }
+    .hero-figure { max-width: 430px; margin: 0 auto; }
+}
+
+@media (max-width: 640px) {
+    .steps, .features, .reviews, .contacts-grid, .about-cards { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 30px; }
+    .hero-content { text-align: center; }
+    .hero p { margin-left: auto; margin-right: auto; }
+    .hero-actions, .hero-stats { justify-content: center; }
+    .hero-stats { gap: 32px; }
+    .hero-figure { max-width: 320px; }
+    .header-inner { flex-wrap: nowrap; gap: 10px; }
+    .header-cta { display: none; }
+    .nav-toggle { display: flex; }
+    .nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(10, 14, 26, 0.97);
+        border-bottom: 1px solid var(--border);
+        display: none;
+    }
+    .nav.open { display: block; }
+    .nav-links {
+        flex-direction: column;
+        padding: 16px 20px 20px;
+        gap: 4px;
+    }
+    .nav-links a {
+        display: block;
+        padding: 12px 10px;
+        font-size: 15px;
+        border-radius: 8px;
+    }
+    .nav-links a:hover { background: var(--panel); }
+    section { padding: 56px 0; }
+    .to-top { right: 16px; bottom: 16px; }
+}
+
+/* Уважение к настройкам «меньше анимации» */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { transition: none; transform: none; }
+    .btn, .card, .to-top, .nav-toggle span { transition: none; }
+}
